@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="15.1">
+    <meta>
+        <filters directoryPatterns="" filePatterns="" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options>
+            <serialized version="15.1" xml:space="preserve">
+                <map>
+                    <entry>
+                        <String>validation.scenarios</String>
+                        <validationScenario-array/>
+                    </entry>
+                </map>
+            </serialized>
+        </options>
+    </meta>
+    <projectTree name="oatc_metadatafeed_2_0.xpr">
+        <file name="dc.xsd"/>
+        <file name="dcmitype.xsd"/>
+        <file name="dcterms.xsd"/>
+        <file name="live-context.xml"/>
+        <file name="oatc_genre_1_0.xsd"/>
+        <file name="oatc_metadatafeed_2_0.xsd"/>
+        <file name="oatc_network_1_0.xsd"/>
+        <file name="oatc_participant_1_0.xsd"/>
+        <file name="oatc_playerlinks_1_0.xsd"/>
+        <file name="oatc_playout_1_0.xsd"/>
+        <file name="oatc_rating_1_0.xsd"/>
+        <file name="oatc_restriction_1_0.xsd"/>
+        <file name="oatc_title_1_0.xsd"/>
+        <file name="ondemand-context.xml"/>
+    </projectTree>
+</project>

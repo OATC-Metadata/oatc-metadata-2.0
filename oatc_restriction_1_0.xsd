@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="urn:oatc:feed:xsd:restriction:1.0"
+    xmlns:oatc-restrict="urn:oatc:feed:xsd:restriction:1.0"
+    xmlns:oatc-play="urn:oatc:feed:xsd:playerlinks:1.0">
+    <xsd:import namespace="urn:oatc:feed:xsd:playerlinks:1.0"
+        schemaLocation="oatc_playerlinks_1_0.xsd"/>
+    <xsd:simpleType name="RestrictionClass">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'class' values for restrictions.  The 'class' values specify the type of device against which a restriction applies. This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union
+            memberTypes="oatc-restrict:RestrictionClassEnum oatc-restrict:RestrictionClassCustom"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionClassEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the RestrictionClass type.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Tablet"/>
+            <xsd:enumeration value="PC"/>
+            <xsd:enumeration value="All"/>
+            <xsd:enumeration value="Unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionClassCustom">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted compoment of the RestrictionClass type.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionFeature">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'feature' values for restrictions.  The 'feature' values specify a piece of end-user functionality against which a restriction applies. This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union
+            memberTypes="oatc-restrict:RestrictionFeatureEnum oatc-restrict:RestrictionFeatureCustom"
+        />
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionFeatureEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the RestrictionFeature type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="DigitalOutput"/>
+            <xsd:enumeration value="LocationAware"/>
+            <xsd:enumeration value="LocalStorage"/>
+            <xsd:enumeration value="AnalogOutput"/>
+            <xsd:enumeration value="HDCP"/>
+            <xsd:enumeration value="FastForward"/>
+            <xsd:enumeration value="ProgrammerBrandingRequired"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionFeatureCustom">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted component of the RestrictionFeature type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionOS">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'os' values for restrictions.  The 'os' values specify the operating system against which a restriction applies.  This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-restrict:RestrictionOSEnum oatc-restrict:RestrictionOSCustom"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionOSEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the RestrictionOS type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Android"/>
+            <xsd:enumeration value="IOS"/>
+            <xsd:enumeration value="Windows"/>
+            <xsd:enumeration value="OSX"/>
+            <xsd:enumeration value="Linux"/>
+            <xsd:enumeration value="Unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RestrictionOSCustom">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted component of the RestrictionOS type.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="Restrictions">
+        <xsd:annotation>
+            <xsd:documentation>A collection of one or more restrictions.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" ref="oatc-restrict:AllowDeny"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Flights"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:RecordRules"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="AllowDeny">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Allow"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Deny"/>
+            </xsd:sequence>
+            <xsd:attribute name="Order">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="DenyAll"/>
+                        <xsd:enumeration value="AllowAll"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Allow">
+        <xsd:annotation>
+            <xsd:documentation>Describes a set of criteria that should result in a client being allowed access to an item.  NOT matching an allow criteria is an implicit deny.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                <xsd:element minOccurs="0" ref="oatc-restrict:Allow"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Action"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Deny"/>
+            </xsd:choice>
+            <xsd:attribute name="class" type="oatc-restrict:RestrictionClass"/>
+            <xsd:attribute name="os" type="oatc-restrict:RestrictionOS"/>
+            <xsd:attribute name="feature" type="oatc-restrict:RestrictionFeature"/>
+            <xsd:attribute name="minVersion" type="xsd:decimal"/>
+            <xsd:attribute name="geo" type="xsd:string"/>
+            <xsd:attribute name="venue" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Deny">
+        <xsd:annotation>
+            <xsd:documentation>Describes a set of criteria that should result in a client being denied access to an item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:choice maxOccurs="unbounded" minOccurs="0">
+                <xsd:element minOccurs="0" ref="oatc-restrict:Allow"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Action"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Deny"/>
+            </xsd:choice>
+            <xsd:attribute name="class" type="oatc-restrict:RestrictionClass"/>
+            <xsd:attribute name="os" type="oatc-restrict:RestrictionOS"/>
+            <xsd:attribute name="feature" type="oatc-restrict:RestrictionFeature"/>
+            <xsd:attribute name="minVersion" type="xsd:decimal"/>
+            <xsd:attribute name="geo" type="xsd:string"/>
+            <xsd:attribute name="altContent" type="xsd:anyURI"/>
+            <xsd:attribute name="altAction">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string"/>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="BBDelivery"/>
+            <xsd:attribute name="venue" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Action">
+        <xsd:annotation>
+            <xsd:documentation>Describes a behavior that should occur when a restriction is triggered.  So, if a particular client does not meet the 'allow' requirements (or, if a particular client does meet the 'deny' requirements), and action must be taken on the part of the client.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-play:PlayerLinks"/>
+            </xsd:sequence>
+            <xsd:attribute name="type" type="oatc-restrict:ActionType"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Flights">
+        <xsd:annotation>
+            <xsd:documentation>A collection of Flight elements setting forth the date range(s) during which the item may be presented to consumers.  This should only be used for on-demand metadata feed contexts.  It should be absent or ignored for live metadatafeed contexts.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-restrict:Flight">
+                    <xsd:annotation>
+                        <xsd:documentation>Identifies a window of time during which the content is authorized to be presented to a consumer. The Start attribute indicates the beginning date and time for the window, the End attribute specifies the end of the window, and the Authenticated attribute specifies whether a consumer desiring to view the content must first be authenticated and authorized using applicable standards.  If no Authenticated attribute is specified then the value is inherited from the Network ancestor element. </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Flight">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-restrict:AllowDeny"/>
+            </xsd:sequence>
+            <xsd:attribute name="Authenticated" type="xsd:boolean"/>
+            <xsd:attribute name="Start" type="xsd:dateTime"/>
+            <xsd:attribute name="End" type="xsd:dateTime"/>
+            <xsd:attribute name="WindowID" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="RecordRules">
+        <xsd:complexType>
+            <xsd:sequence maxOccurs="2" minOccurs="0">
+                <xsd:element minOccurs="0" name="InProgramRestart">
+                    <xsd:complexType>
+                        <xsd:attribute name="Allowed">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="No"/>
+                                    <xsd:enumeration value="SetTop"/>
+                                    <xsd:enumeration value="TVE"/>
+                                    <xsd:enumeration value="Both"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="Metadata" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>Undefined, but may provide URI to a metadata set in addition to the metatdata supplied in the oatc-title:Title element for this Item.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="AdReplacement">
+                            <xsd:annotation>
+                                <xsd:documentation>Optional field that specifies restart conditions under which ads could be replaced.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="No"/>
+                                    <xsd:enumeration value="SetTop"/>
+                                    <xsd:enumeration value="TVE"/>
+                                    <xsd:enumeration value="Both"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="AlternateAiringID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>Optional field hat specifies an alternate asset that could be played on restart.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Window" type="xsd:int">
+                            <xsd:annotation>
+                                <xsd:documentation>Window: % of content length. (i.e. 200% of an hour show means it is available to restart for 2 hours after it initially started to air,  100% means that the viewing window ends with the show.)</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="Cx">
+                    <xsd:complexType>
+                        <xsd:attribute name="Allowed">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="No"/>
+                                    <xsd:enumeration value="SetTop"/>
+                                    <xsd:enumeration value="TVE"/>
+                                    <xsd:enumeration value="Both"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="Required" type="xsd:boolean"/>
+                        <xsd:attribute name="CxType">
+                            <xsd:annotation>
+                                <xsd:documentation>Precise ratings stream type for this record rule</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="c3"/>
+                                    <xsd:enumeration value="c7"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="Metadata" type="xsd:string"/>
+                        <xsd:attribute name="AdReplacement">
+                            <xsd:annotation>
+                                <xsd:documentation>Optional field that specifies restart conditions under which ads could be replaced.
+</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="No"/>
+                                    <xsd:enumeration value="SetTop"/>
+                                    <xsd:enumeration value="TVE"/>
+                                    <xsd:enumeration value="Both"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="AlternateAiringID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>Optional field hat specifies an alternate asset that could be played on restart.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Window" type="xsd:integer">
+                            <xsd:annotation>
+                                <xsd:documentation>Hours available after initial stream start (would use 75 hours for C3, TBD for C7)</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="ActionType">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'type' values for actions.  The 'type' values specify a kind of action that should occur when a restriction is triggered.  This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-restrict:ActionTypeEnum oatc-restrict:ActionTypeCustom"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="ActionTypeEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the ActionType type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="replace"/>
+            <xsd:enumeration value="blackout"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="ActionTypeCustom">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted component of the ActionType type.
+		</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

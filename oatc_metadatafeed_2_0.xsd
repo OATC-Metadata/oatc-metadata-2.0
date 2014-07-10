@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:metadatafeed:2.0"
+    version="2.0" xmlns:oatc-md="urn:oatc:feed:xsd:metadatafeed:2.0"
+    xmlns:oatc-network="urn:oatc:feed:xsd:network:1.0"
+    xmlns:oatc-play="urn:oatc:feed:xsd:playerlinks:1.0"
+    xmlns:oatc-playout="urn:oatc:feed:xsd:playout:1.0"
+    xmlns:oatc-rating="urn:oatc:feed:xsd:rating:1.0"
+    xmlns:oatc-restrict="urn:oatc:feed:xsd:restriction:1.0"
+    xmlns:oatc-title="urn:oatc:feed:xsd:title:1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="urn:oatc:feed:xsd:network:1.0" schemaLocation="oatc_network_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:playerlinks:1.0"
+        schemaLocation="oatc_playerlinks_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:playout:1.0" schemaLocation="oatc_playout_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:rating:1.0" schemaLocation="oatc_rating_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:restriction:1.0"
+        schemaLocation="oatc_restriction_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:title:1.0" schemaLocation="oatc_title_1_0.xsd"/>
+    <xsd:element name="Feed">
+        <xsd:annotation>
+            <xsd:documentation>A Feed is a unit of metadata that provides information about either a sequence of on-demand viewable items OR a schedule sequence of live schedule events.  It is not appropriate to mix the two concepts in the same feed delivery.  The context of the Feed is specified via an attribute, and must be honored consistently throughout any particular feed delivery.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-network:Network"/>
+                <xsd:element minOccurs="0" ref="oatc-network:NetworkDefault"/>
+                <xsd:element name="Item">
+                    <xsd:annotation>
+                        <xsd:documentation>Item represents a single logical viewable unit, such as an episode, a clip, and event, etc.
+</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Status">
+                                <xsd:simpleType>
+                                    <xsd:restriction base="xsd:string">
+                                        <xsd:enumeration value="add"/>
+                                        <xsd:enumeration value="update"/>
+                                        <xsd:enumeration value="delete"/>
+                                    </xsd:restriction>
+                                </xsd:simpleType>
+                            </xsd:element>
+                            <xsd:element ref="oatc-title:Title"/>
+                            <xsd:element ref="oatc-playout:Playout"/>
+                            <xsd:element minOccurs="0" ref="oatc-restrict:Restrictions"/>
+                            <xsd:element minOccurs="0" ref="oatc-play:PlayerLinks"/>
+                            <xsd:element minOccurs="0" ref="oatc-title:Recomended"/>
+                            <xsd:element minOccurs="0" name="Private">
+                                <xsd:complexType>
+                                    <xsd:openContent mode="interleave">
+                                        <xsd:any/>
+                                    </xsd:openContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="Name" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>A "friendly" or consumer-readable title for this item.  Generally, detailed title information is available in the associated oatc-title:Title child element and if it is available it should be used preferentially over this attribute.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="ID" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>A provider-unique value that identifies this particular item.  In the case of an on demand feed context, this ID can be anything.  If the item was captured from a live broadcast feed, this value should be the Airing ID. In the case of a live feed context this should be the Airing ID.  An Airing ID is sipmly a key to link the in-band SCTE-35 messaging to this metadata item.  Typically this will be a unique identifier for each schedule item from teh SCTE-35 UPID types.  NOTE:  This is not intended to house program or title-level identifiers such as EIDR, IMDB, etc.  Those identifiers are captured in the oatc-title:Title element.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Type" type="oatc-md:itemTypeType">
+                            <xsd:annotation>
+                                <xsd:documentation>OPTIONAL value describing the general type of the content represented by this item.  This will generally be reflective of the specific oatc-Title type substitution from the title metadata.  </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="ExpectedStartTime" type="xsd:dateTime">
+                            <xsd:annotation>
+                                <xsd:documentation>OPTIONAL element for live metedata context feeds that specifes the expected clock time (not required to be frame accurate) stat time for this element.  This should only be relied upon to narrow a location in a feedl relative to live playout.  In-band signalling should be used for precise syncing using fine-grained data in the oatc-playout:Playout section.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="ExpectedEndTime" type="xsd:dateTime">
+                            <xsd:annotation>
+                                <xsd:documentation>OPTIONAL element for live metedata context feeds that specifes the expected clock time (not required to be frame accurate) ending time for this element.  This should only be relied upon to narrow a location in a feedl relative to live playout.  In-band signalling should be used for precise syncing using fine-grained data in the oatc-playout:Playout section.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Duration" type="xsd:dateTime">
+                            <xsd:annotation>
+                                <xsd:documentation>OPTIONAL element for all feed contexts that specifies a general duration for this item.  For live feed contexts, this can be used instead of the ExpectedEndTime attribute.  If both a Duration and an ExpectedEndTime are provided, the ExpectedEndTime should be used.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="Authenticated" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>An optional attribute to the Feed element allows for specification of a default value for the “Authenticated” attribute for Items contained within this Feed element.  This default value can be overridden on any Network element or Flight element in the feed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Provider" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The entity that provided this feed.  NOTE:  This is typically teh parent broadcaster of the network.  Could use the EIDR parent network identifier or any other appropriate EIDR party identifier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="DeliveryContext">
+                <xsd:annotation>
+                    <xsd:documentation>Specifies the delivery context of these feed.  Metadata feeds are either of the "on demand" context, in which case they represent individual items that can be viewed at-wil or feeds are of the "live" context, in which case they represent a sequence of playout events that can be paired with in-band signaling (e.g. SCTE-35).  In all cases, items contained in feeds are always subject to the viewing and behavioral restrictions that are associated with them.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="ondemand"/>
+                        <xsd:enumeration value="live"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="TimeStamp" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>This time stamp is when this feed was generated.  It can be used for version change recognition.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Start" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>Optional element if this feed contains live simulcast playout information.  This is the start window of items contained in this feed.
+</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="End" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>Optional element if this feed contains live simulcast playout information.  This is the start window of items contained in this feed.
+</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="Status">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="new"/>
+                        <xsd:enumeration value="update"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="itemTypeEnumType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AwardShow"/>
+            <xsd:enumeration value="BroadcastEpisode"/>
+            <xsd:enumeration value="Clip"/>
+            <xsd:enumeration value="Concert"/>
+            <xsd:enumeration value="Conference"/>
+            <xsd:enumeration value="Movie"/>
+            <xsd:enumeration value="MusicVideo"/>
+            <xsd:enumeration value="NonBroadcastEpisode"/>
+            <xsd:enumeration value="SportingEvent"/>
+            <xsd:enumeration value="Trailer"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="itemTypeCustomType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="itemTypeType">
+        <xsd:union memberTypes="oatc-md:itemTypeEnumType oatc-md:itemTypeCustomType"/>
+    </xsd:simpleType>
+</xsd:schema>

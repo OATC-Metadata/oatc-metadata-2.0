@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:playout:1.0"
+    xmlns:oatc-playout="urn:oatc:feed:xsd:playout:1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:oatc-restrict="urn:oatc:feed:xsd:restriction:1.0">
+
+    <xsd:import namespace="urn:oatc:feed:xsd:restriction:1.0"
+        schemaLocation="oatc_restriction_1_0.xsd"/>
+    <xsd:element name="Playout">
+        <xsd:annotation>
+            <xsd:documentation>A set of playout items.  For on-demand metadata feed contexts, this playout structure represents the sequence of segments and ad breaks in the playout asset.  For live metadata feed contexts, this structure represents the expected sequence of schedule events and their types.  An arbitrary level of detail can be provided.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" ref="oatc-playout:PlayoutItem"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Captions">
+        <xsd:annotation>
+            <xsd:documentation>A container for a set of Caption elements that collectively identify close captioning text for the enclosing ContentSegment.  The Encoded parameter is a Boolean indicating whether or not the captioning data is embedded in the VideoAsset file using SMPTE 608/708 standards.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="CaptionAsset">
+                    <xsd:annotation>
+                        <xsd:documentation>Identifies a file containing closed captioning data for a ContentSegment.  There may be more than one of these elements, describing, for example, different languages for text.  The value of Src  is the name of the corresponding captioning data file OR an accessible URL where the caption file can be obtained.  Label specifies a consumer-friendly text string identifying the data stream;  Type identifies the format in which the caption data is encoded in the file, and Lang specifies the format of the text that is provided in the Caption file.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="Lang" type="xsd:string"/>
+                        <xsd:attribute name="Label" type="xsd:string"/>
+                        <xsd:attribute name="Type">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:enumeration value="text/timedText"/>
+                                    <xsd:enumeration value="text/unformatted"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:attribute>
+                        <xsd:attribute name="Source" type="xsd:anyURI"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="Encoded" type="xsd:boolean"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Thumbs">
+        <xsd:annotation>
+            <xsd:documentation>Serves as a container for a set of Thumb elements, each of which describes an encoding of a file containing a keyframe, or thumbnail image, that can represent the enclosing ContentSegment.  The Name attribute simply assigns a handle to the ThumbSet, allowing it to be referenced as the preferredSet on the enclosing Thumbs element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" name="ThumbSet">
+                    <xsd:annotation>
+                        <xsd:documentation>Width and Height specify the dimensions of the thumbnail image (in pixels), and ImageUrl specifies the URL of the image file for this thumbnail.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="AltText">
+                                <xsd:complexType>
+                                    <xsd:attribute name="Value" type="xsd:string"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element maxOccurs="unbounded" name="Thumb">
+                                <xsd:annotation>
+                                    <xsd:documentation>Width and Height specify the dimensions of the thumbnail image (in pixels), and ImageUrl specifies the URL of the image file for this thumbnail.</xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:attribute name="ImageURL" type="xsd:anyURI"/>
+                                    <xsd:attribute name="Name" type="xsd:NCName"/>
+                                    <xsd:attribute name="Height" type="xsd:integer"/>
+                                    <xsd:attribute name="Width" type="xsd:integer"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="Name" type="xsd:NCName"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="PreferredSet" type="xsd:NCName"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="PlayoutItemTypeUnion">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'ItemType' values for playout items.  This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-playout:PlayoutItemTypeEnum oatc-playout:PlayoutItemTypeCustom"
+        />
+    </xsd:simpleType>
+    <xsd:simpleType name="PlayoutItemTypeEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the PlayoutItemType type</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="segment"/>
+            <xsd:enumeration value="pod"/>
+            <xsd:enumeration value="nationalavail"/>
+            <xsd:enumeration value="localavail"/>
+            <xsd:enumeration value="vodAsset"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="PlayoutItemTypeCustom">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted component of the PlayoutItemtype type.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="PlayoutItem">
+        <xsd:annotation>
+            <xsd:documentation>Represents a single item in the Playout structure.  Items have a type and schedule information, as well as an 'AiringID' that relates this item back to in-band signaling for live metadata feed contexts.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" ref="oatc-playout:PlayoutItem"/>
+                <xsd:element minOccurs="0" ref="oatc-playout:Thumbs"/>
+                <xsd:element minOccurs="0" ref="oatc-playout:Captions"/>
+                <xsd:element minOccurs="0" ref="oatc-restrict:Restrictions"/>
+            </xsd:sequence>
+            <xsd:attribute name="seq" type="xsd:int" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>Integer that describes the playout position of this item.  Not necessarily sequential, but must have relative significance within this publication of metadata.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="AiringID" type="xsd:string" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>An optional provider-specific value facilitating off-air capture of content.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ScheduleStartTime" type="xsd:dateTime" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>An optional dateTime that specifies the scheduled start time for this item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ScheduleEndTime" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>An optional dateTime that specifies the scheduled end time for this item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="AudioType" type="oatc-playout:AudioType"/>
+            <xsd:attribute name="AudioLanguage" type="xsd:string"/>
+            <xsd:attribute name="Bitrate" type="xsd:integer"/>
+            <xsd:attribute name="ContentControl"/>
+            <xsd:attribute name="Filename" type="xsd:anyURI"/>
+            <xsd:attribute name="Start" type="oatc-playout:TimecodeType"/>
+            <xsd:attribute name="End" type="oatc-playout:TimecodeType"/>
+            <xsd:attribute name="Height" type="xsd:integer"/>
+            <xsd:attribute name="Width" type="xsd:integer"/>
+            <xsd:attribute name="ItemType" type="oatc-playout:PlayoutItemTypeUnion" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>Identifies the playout item's type.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="AudioType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Mono"/>
+            <xsd:enumeration value="Stereo"/>
+            <xsd:enumeration value="5.1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TimecodeType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{2}:\d{2}:\d{2}:\d{2}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

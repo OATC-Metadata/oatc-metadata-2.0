@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="urn:oatc:feed:xsd:genre:1.0" xmlns:oatc-genre="urn:oatc:feed:xsd:genre:1.0">
+    <xs:element name="Genre">
+        <xs:annotation>
+            <xs:documentation>Describes the general programming type</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="Value" type="oatc-genre:GenreType" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="GenreType">
+        <xs:annotation>
+            <xs:documentation>Datatype that represents the collection of all possible 'Genre' values for video media.  This type is a union between an enumeration of static values and a pattern-restricted type.</xs:documentation>
+        </xs:annotation>
+        <xs:union memberTypes="oatc-genre:GenreEnum oatc-genre:GenreCustom"/>
+    </xs:simpleType>
+    <xs:simpleType name="GenreEnum">
+        <xs:annotation>
+            <xs:documentation>Enumeration component of the GenreType type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Action and Adventure"/>
+            <xs:enumeration value="Animation and Cartoons"/>
+            <xs:enumeration value="Arts and Culture"/>
+            <xs:enumeration value="Automotive"/>
+            <xs:enumeration value="Business"/>
+            <xs:enumeration value="Classics"/>
+            <xs:enumeration value="Comedy"/>
+            <xs:enumeration value="Documentary"/>
+            <xs:enumeration value="Drama"/>
+            <xs:enumeration value="Family"/>
+            <xs:enumeration value="Food and Leisure"/>
+            <xs:enumeration value="Foreign"/>
+            <xs:enumeration value="Green"/>
+            <xs:enumeration value="Health and Wellness"/>
+            <xs:enumeration value="Home and Garden"/>
+            <xs:enumeration value="Horror and Suspense"/>
+            <xs:enumeration value="Independent"/>
+            <xs:enumeration value="Live Events"/>
+            <xs:enumeration value="Music"/>
+            <xs:enumeration value="News and Information"/>
+            <xs:enumeration value="Other"/>
+            <xs:enumeration value="Reality and Game Shows"/>
+            <xs:enumeration value="Romance"/>
+            <xs:enumeration value="Science Fiction"/>
+            <xs:enumeration value="Sports"/>
+            <xs:enumeration value="Talk and Interview"/>
+            <xs:enumeration value="Video Games"/>
+            <xs:enumeration value="Web"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="GenreCustom">
+        <xs:annotation>
+            <xs:documentation>Pattern-restricted component of the GenreType type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="private:\S.*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MusicGenreType">
+        <xs:annotation>
+            <xs:documentation>Datatype that represents the collection of all possible genre values for music content.  This type is a union between an enumeration of static values and a pattern-restricted type.</xs:documentation>
+        </xs:annotation>
+        <xs:union memberTypes="oatc-genre:MusicGenreEnum oatc-genre:MusicGenreCustom"/>
+    </xs:simpleType>
+    <xs:simpleType name="MusicGenreEnum">
+        <xs:annotation>
+            <xs:documentation>Enumeration component of the GenreType type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="MusicGenreCustom">
+        <xs:annotation>
+            <xs:documentation>Pattern-restricted component of the GenreType type.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+</xs:schema>

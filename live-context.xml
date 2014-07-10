@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oatc-md:Feed xmlns:oatc-playout="urn:oatc:feed:xsd:playout:1.0"
+        xmlns:oatc-restrict="urn:oatc:feed:xsd:restriction:1.0"
+        xmlns:oatc-rating="urn:oatc:feed:xsd:rating:1.0"
+        xmlns:oatc-participant="urn:oatc:feed:xsd:participant:1.0"
+        xmlns:oatc-network="urn:oatc:feed:xsd:network:1.0"
+        xmlns:oatc-play="urn:oatc:feed:xsd:playerlinks:1.0"
+        xmlns="urn:oatc:feed:xsd:metadatafeed:2.0"
+        xmlns:oatc-md="urn:oatc:feed:xsd:metadatafeed:2.0"
+        xmlns:oatc-title="urn:oatc:feed:xsd:title:1.0"
+        xmlns:oatc-genre="urn:oatc:feed:xsd:genre:1.0"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="urn:oatc:feed:xsd:metadatafeed:2.0 file:/Users/crawforb/Projects/OATC/metadata2.0wrapup/oatc_metadatafeed_2_0.xsd"
+        
+        Authenticated="true"
+        Provider="Viacom"
+        DeliveryContext="live"
+        Start="2014-05-04T06:00:00.0"
+        End="2014-05-04T18:00:00.0"
+        TimeStamp="2014-05-04T18:13:51.0"
+        Status="new">
+    <oatc-network:Network name="MTV">
+        <oatc-network:NetworkId value="MTV" authority="TMS"/>
+        <oatc-network:NetworkId value="MTV" authority="IMDB"/>
+        <oatc-network:NetworkId value="MTV" authority="private:PTS"/>
+    </oatc-network:Network>
+    <oatc-md:Item Name="Awkward Season 1 Episode 1" 
+                    ID="AWKs1e1"
+                    Type="BroadcastEpisode">
+        <oatc-md:Status>add</oatc-md:Status>
+        <oatc-title:BroadcastEpisode>
+            <oatc-title:Duration ActualSeconds="1320"
+                                 DisplayMinutes="30"/>
+            <oatc-title:SortName Value="Awkward 101"/>
+            <oatc-title:ReleaseYear Year="2010"/>
+            <oatc-title:MetaTags Value="Awkward,teens,school"/>
+            <oatc-genre:Genre Value="Comedy"/>
+            <oatc-rating:Ratings>
+                <oatc-rating:Rating Value="TV-14" 
+                                    Authority="PGMB"/>
+            </oatc-rating:Ratings>
+            <oatc-title:Description>An unpopular 15 year old gains immediate, yet unwanted, popularity at her high school when the student body mistakes an accident she has for a suicide attempt.</oatc-title:Description>
+            <oatc-title:DescriptionShort>An unpopular 15 year old gains immediate, yet unwanted, popularity at her high school when the student body mistakes an accident she has for a suicide attempt.</oatc-title:DescriptionShort>
+            <oatc-title:Series Id="12345" 
+                               Name="Awkward" 
+                               ImageUrl="http://www.mtv.com/shows/awkward/"/>
+            <oatc-title:Episode Number="101" 
+                                Title="Senior Ski Trip Has A Rocky Start" 
+                                ImageUrl="http://www.mtv.com/shows/awkward/" 
+                                xml:lang="en-US"/>
+            <oatc-title:SeasonNumber Value="1"/>
+            <oatc-participant:Participants>
+                <oatc-participant:Participant Value="Jenna Hamilton" 
+                                              Character="Ashley Rickards" 
+                                              Role="Actor" 
+                                              Authority="IMDB"/>
+            </oatc-participant:Participants>
+            <oatc-title:TitleIds>
+                <oatc-title:TitleId Type="Episode" 
+                                    Authority="IMDB" 
+                                    Value="tt1663676"/>
+                <oatc-title:TitleId Type="Episode" 
+                                    Authority="EIDR" 
+                                    Value="10.5240/0FA7-939D-9CB8-E6FC-6998-Q"/>
+            </oatc-title:TitleIds>
+        </oatc-title:BroadcastEpisode>
+        <oatc-playout:Playout>
+            <oatc-playout:PlayoutItem seq="0" 
+                                      AiringID="AiringID1" 
+                                      ScheduleStartTime="2014-05-04T18:13:51.0" 
+                                      ItemType="segment">
+            </oatc-playout:PlayoutItem>
+            <oatc-playout:PlayoutItem seq="1" 
+                                      AiringID="AiringID2" 
+                                      ScheduleStartTime="2014-05-04T18:13:51.0" 
+                                      ItemType="pod">
+            </oatc-playout:PlayoutItem>
+            <oatc-playout:PlayoutItem seq="2" 
+                                      AiringID="AiringID3" 
+                                      ScheduleStartTime="2014-05-04T18:13:51.0" 
+                                      ItemType="segment">
+            </oatc-playout:PlayoutItem>
+        </oatc-playout:Playout>
+        <oatc-restrict:Restrictions>
+            <oatc-restrict:AllowDeny Order="AllowAll">
+                <oatc-restrict:Deny class="PC">
+                    <oatc-restrict:Action>
+                        <oatc-play:PlayerLinks>
+                            <oatc-play:PlayerLink Type="page" 
+                                                  BaseUri="http://www.mtv.com" 
+                                                  ParamsExpected="false"/>
+                        </oatc-play:PlayerLinks>
+                    </oatc-restrict:Action>
+                </oatc-restrict:Deny>
+            </oatc-restrict:AllowDeny>
+            <oatc-restrict:RecordRules>
+                <oatc-restrict:Cx CxType="c3" 
+                                  Allowed="SetTop" 
+                                  Required="true" 
+                                  Window="100"/>
+                <oatc-restrict:InProgramRestart Allowed="SetTop" 
+                                                Window="100"/>
+            </oatc-restrict:RecordRules>
+        </oatc-restrict:Restrictions>
+        <oatc-title:Recomended>
+            <oatc-title:Series ImageUrl="http://www.mtv.com/shows/catfish/" 
+                               Name="Catfish" 
+                               Id="12536"/>
+        </oatc-title:Recomended>
+    </oatc-md:Item>
+</oatc-md:Feed>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:rating:1.0"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:oatc-rating="urn:oatc:feed:xsd:rating:1.0">
+    <xsd:element name="TVRatingCode">
+        <xsd:annotation>
+            <xsd:documentation>MPAA or TV Rating, as appropriate</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Value" type="oatc-rating:TVRatingType" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="TVRatingType">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that specifies a list of valid ratings for TV content.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="TV-Y"/>
+            <xsd:enumeration value="TV-Y7"/>
+            <xsd:enumeration value="TV-G"/>
+            <xsd:enumeration value="TV-PG"/>
+            <xsd:enumeration value="TV-14"/>
+            <xsd:enumeration value="TV-MA"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="MPAARatingType">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that specifies a list of valid ratings for movies.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="G"/>
+            <xsd:enumeration value="PG"/>
+            <xsd:enumeration value="PG-13"/>
+            <xsd:enumeration value="R"/>
+            <xsd:enumeration value="NC-17"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RatingType">
+        <xsd:annotation>
+            <xsd:documentation>Union that collects all valid ratings across all more specific ratings types (MPAA, etc.)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-rating:TVRatingType oatc-rating:MPAARatingType"/>
+    </xsd:simpleType>
+    <xsd:element name="Ratings">
+        <xsd:annotation>
+            <xsd:documentation>Specifies a number of ratings that may apply to a particular Item.  This structure allows for several ratings from several different agencies to be applied to the same piece of content.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="10" ref="oatc-rating:Rating"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Rating">
+        <xsd:annotation>
+            <xsd:documentation>Describes a particular rating that is composed of two parts:  first, the 'authority', that specifies the rating agency, and seconly, the 'value', that specifies the actual value of the rating.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Authority">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:enumeration value="MPAA"/>
+                        <xsd:enumeration value="PGMB"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:attribute>
+            <xsd:attribute name="Value" type="oatc-rating:RatingType"/>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

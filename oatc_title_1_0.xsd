@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:title:1.0"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:oatc-genre="urn:oatc:feed:xsd:genre:1.0"
+    xmlns:oatc-rating="urn:oatc:feed:xsd:rating:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:oatc-participant="urn:oatc:feed:xsd:participant:1.0"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:oatc-title="urn:oatc:feed:xsd:title:1.0">
+    <xsd:import namespace="urn:oatc:feed:xsd:rating:1.0" schemaLocation="oatc_rating_1_0.xsd"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:genre:1.0" schemaLocation="oatc_genre_1_0.xsd"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+        schemaLocation="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="urn:oatc:feed:xsd:participant:1.0"
+        schemaLocation="oatc_participant_1_0.xsd"/>
+    <xsd:import schemaLocation="http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd"
+        namespace="http://purl.org/dc/elements/1.1/"/>
+    <xsd:element abstract="true" name="Title">
+        <xsd:annotation>
+            <xsd:documentation>Title-type-element (the actual element is given in the TveItem “type” attribute and is one of the following:
+Movie, BroadcastEpisode, NonBroadcastEpisode, MusicVideo, AwardsShow, Clip, Concert,Conference, NewsEvent, SportingEvent, Trailer)
+</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="Movie" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:choice>
+                    <xsd:element ref="oatc-title:SortName"/>
+                    <xsd:element ref="dc:title"/>
+                </xsd:choice>
+                <xsd:element ref="oatc-title:ReleaseYear"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-genre:Genre"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+                <xsd:choice>
+                    <xsd:element ref="oatc-title:Description"/>
+                    <xsd:element ref="dc:description"/>
+                </xsd:choice>
+                <xsd:element ref="oatc-title:DescriptionShort"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Airings"/>
+                <xsd:element minOccurs="0" ref="oatc-title:OriginalPremierDate"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="BroadcastEpisode" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:element ref="oatc-title:SortName"/>
+                <xsd:element ref="oatc-title:ReleaseYear"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-genre:Genre"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+                <xsd:element ref="oatc-title:Description"/>
+                <xsd:element ref="oatc-title:DescriptionShort"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Airings"/>
+                <xsd:element minOccurs="0" ref="oatc-title:OriginalPremierDate"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Series"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Episode"/>
+                <xsd:element minOccurs="0" ref="oatc-title:SeasonNumber"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="NonBroadcastEpisode" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:element ref="oatc-title:SortName"/>
+                <xsd:element ref="oatc-title:ReleaseYear"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-genre:Genre"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+                <xsd:element ref="oatc-title:Description"/>
+                <xsd:element ref="oatc-title:DescriptionShort"/>
+                <xsd:element minOccurs="0" ref="oatc-title:OriginalPremierDate"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Series"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Episode"/>
+                <xsd:element minOccurs="0" ref="oatc-title:SeasonNumber"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="SportingEvent" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:attribute name="Live" type="xsd:boolean"/>
+            <xsd:attribute name="Sport" type="xsd:string"/>
+            <xsd:attribute name="League" type="xsd:string"/>
+            <xsd:attribute name="Division" type="xsd:string"/>
+            <xsd:attribute name="ScheduledStart" type="xsd:dateTime"/>
+            <xsd:attribute name="ActualStart" type="xsd:dateTime"/>
+            <xsd:attribute name="Season" type="xsd:string"/>
+            <xsd:attribute name="Series" type="xsd:string"/>
+            <xsd:attribute name="Event" type="xsd:string"/>
+            <xsd:attribute name="Venue" type="xsd:string"/>
+            <xsd:attribute name="Race" type="xsd:string"/>
+            <xsd:attribute name="Sponsor" type="xsd:string"/>
+            <xsd:attribute name="Tournament" type="xsd:string"/>
+            <xsd:attribute name="Gender" type="oatc-title:Gender"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Album">
+        <xsd:complexType>
+            <xsd:attribute name="name" type="xsd:string"/>
+            <xsd:attribute name="label" type="xsd:string"/>
+            <xsd:attribute name="releaseDate" type="xsd:string"/>
+            <xsd:attribute name="imageUrl" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="AlbumTrack">
+        <xsd:complexType>
+            <xsd:attribute name="value" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="MusicVideo" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+                <xsd:element ref="oatc-participant:Artist"/>
+                <xsd:element ref="oatc-title:Album">
+                    <xsd:annotation>
+                        <xsd:documentation>The name of the album containing the song from which a music video is produced.  Parameters include Name (the complete name of the released album), ReleaseDate (the date that the album became available for sale) and ImageUrl (a path to cover artwork from the album).</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element ref="oatc-title:ReleaseYear"/>
+                <xsd:element name="Genre" type="oatc-genre:MusicGenreType"/>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:element ref="oatc-title:SortName"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+                <xsd:element ref="oatc-title:OriginalPremierDate"/>
+                <xsd:element ref="oatc-title:AlbumTrack">
+                    <xsd:annotation>
+                        <xsd:documentation>The sequence number of a track on an album.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Clip" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:element ref="oatc-title:SortName"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-genre:Genre"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Series"/>
+                <xsd:element minOccurs="0" ref="oatc-title:Episode"/>
+                <xsd:element minOccurs="0" ref="oatc-title:SeasonNumber"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Concert" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element ref="oatc-title:Description"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+                <xsd:element ref="oatc-title:Duration"/>
+                <xsd:element ref="oatc-title:SortName"/>
+                <xsd:element ref="oatc-title:MetaTags"/>
+                <xsd:element ref="oatc-title:Venue"/>
+                <xsd:element ref="oatc-genre:Genre"/>
+                <xsd:element ref="oatc-rating:Ratings"/>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="AwardsShow" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element ref="oatc-title:Description"/>
+                <xsd:element ref="oatc-title:Venue"/>
+                <xsd:element minOccurs="0" ref="oatc-title:TitleIds"/>
+                <xsd:element minOccurs="0" ref="oatc-participant:Participants"/>
+                <xsd:element minOccurs="0" name="AwardCategories">
+                    <xsd:annotation>
+                        <xsd:documentation>A comma-separated list of categories for which an awards show will issue awards.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Conference" substitutionGroup="oatc-title:Title">
+        <xsd:complexType>
+            <xsd:choice>
+                <xsd:element name="Organization">
+                    <xsd:annotation>
+                        <xsd:documentation>The name of an organization sponsoring a conference.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="Speakers">
+                    <xsd:annotation>
+                        <xsd:documentation>A comma-separated list of featured persons speaking at a conference.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element ref="oatc-title:Venue"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Duration">
+        <xsd:annotation>
+            <xsd:documentation>Represents the viewing length of the program.  The ActualSeconds attribute specifies the duration of the program in seconds (Note: For C3 items this is the duration of the program as presented on the linear network, inclusive of breaks; for non-C3, specifies the duration of the program content in seconds, not including breaks.)  The DisplayMinutes attribute specifies a “consumer-friendly” value, in minutes, for the length of the program.  This will typically be 15, 30 or 60 minutes, but cannot be exact without knowledge of the duration of any dynamically-inserted ads.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="ActualSeconds" type="xsd:integer" use="required"/>
+            <xsd:attribute name="DisplayMinutes" type="xsd:integer" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="SortName">
+        <xsd:annotation>
+            <xsd:documentation>A string to be used for ordering a list of content titles in a more consumer-friendly way.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Value" type="xsd:string"/>
+            <xsd:attribute ref="xml:lang"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ReleaseYear">
+        <xsd:annotation>
+            <xsd:documentation>The original year of release of the content.  The Year attribute is the 4-digit year of original release.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Year" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="MetaTags">
+        <xsd:annotation>
+            <xsd:documentation>A comma-separated set of terms that can be used to assist with content searches.  The exact terms used are provider-specific.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Value" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Description">
+        <xsd:annotation>
+            <xsd:documentation>A brief free-text description of the programming</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute ref="xml:lang"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="DescriptionShort">
+        <xsd:annotation>
+            <xsd:documentation>An abbreviated version of the Description</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <xsd:attribute ref="xml:lang"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="OriginalPremierDate">
+        <xsd:annotation>
+            <xsd:documentation>Identifies the date that the content first was presented on the linear network.  The Date attribute is the calendar date of appearance in the form yyyy-mm-dd.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Date" type="xsd:date"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Venue" type="xsd:string">
+        <xsd:annotation>
+            <xsd:documentation>Identifies the facility or location of a sporting event, concert or similar event.</xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="TitleIds">
+        <xsd:annotation>
+            <xsd:documentation>A collection of TitleId elements identifying the content in external namespaces.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence maxOccurs="10">
+                <xsd:element ref="oatc-title:TitleId"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TitleId">
+        <xsd:annotation>
+            <xsd:documentation>Specifies the key to a third-party database record that contains information for this program.  The Type attribute specifies the scope of the identifier (i.e., episode, series, movie, etc.), the Authority attribute specifies the issuing authority for the ID; the Value attribute is the key for this program in the external database.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Type" type="oatc-title:TitleIdType" use="required"/>
+            <xsd:attribute name="Value" type="xsd:string" use="required"/>
+            <xsd:attribute name="Authority" type="oatc-title:TitleIdSource"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="TitleIdSource">
+        <xsd:annotation>
+            <xsd:documentation>Describes the source of title information data.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="TMS"/>
+            <xsd:enumeration value="Rovi"/>
+            <xsd:enumeration value="IMDB"/>
+            <xsd:enumeration value="Private"/>
+            <xsd:enumeration value="AMG"/>
+            <xsd:enumeration value="EIDR"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TitleIdType">
+        <xsd:annotation>
+            <xsd:documentation>Describes the general type of a title (i.e. is it episodic, a movie, etc.).</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Series"/>
+            <xsd:enumeration value="Episode"/>
+            <xsd:enumeration value="Movie"/>
+            <xsd:enumeration value="Track"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="Airings">
+        <xsd:annotation>
+            <xsd:documentation>A collection of Airing elements describing when the title has recently appeared on the linear network.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="20" ref="oatc-title:Airing">
+                    <xsd:annotation>
+                        <xsd:documentation>Provides the date on which the title has recently appeared on the linear network. There may be multiple Airing elements within the Airings collection.  The Date attribute specifies the date on which the content aired, and the AiringId attribute is an optional provider-specific value facilitating off-air capture of content.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Airing">
+        <xsd:annotation>
+            <xsd:documentation>Provides the date on which the title has recently appeared on the linear network.  There may be multiple Airing elements within the Airings collection.  The date attribute specifies the date on which the content aired, and the AiringId attribute is an optional provider-specific value factilitating off-air capture of content.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Date" type="xsd:date" use="required"/>
+            <xsd:attribute name="AiringId" type="xsd:string" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="Gender">
+        <xsd:annotation>
+            <xsd:documentation>Gender in this context is used to describe sporting event participants.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Men"/>
+            <xsd:enumeration value="Women"/>
+            <xsd:enumeration value="Mixed"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="Series">
+        <xsd:annotation>
+            <xsd:documentation>For episodic content, the name of the program series of the asset.  Always provided for episodic content.  The Name attribute is the textual name of the series, suitable for presentation to a viewer, and Id specifies a provider-specific numeric identifier for the series.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Name" type="xsd:string"/>
+            <xsd:attribute name="Id" type="xsd:integer"/>
+            <xsd:attribute name="ImageUrl" type="xsd:anyURI"/>
+            <xsd:attribute ref="xml:lang"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="SeasonNumber">
+        <xsd:annotation>
+            <xsd:documentation>For episodic content, a Value indicating the season of the original airing of the asset. Always provided for episodic content.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Value" type="xsd:integer"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Episode">
+        <xsd:annotation>
+            <xsd:documentation>For episodic content, an identifier for a specific episode within a series.   The Title attribute is the viewer-friendly name of the episode being described, and the Number attribute is the episode number within the series for the specific episode.  Always provided for episodic content.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:attribute name="Title" type="xsd:string"/>
+            <xsd:attribute name="Number" type="xsd:integer"/>
+            <xsd:attribute name="ImageUrl" type="xsd:anyURI"/>
+            <xsd:attribute ref="xml:lang"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Recomended">
+        <xsd:annotation>
+            <xsd:documentation>A list of reccomended title, series or episodes for the viwer of this title.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="oatc-title:TitleId"/>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="oatc-title:Series"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

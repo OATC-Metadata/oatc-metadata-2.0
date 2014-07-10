@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:network:1.0"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:oatc-network="urn:oatc:feed:xsd:network:1.0"
+    xmlns:oatc-restrict="urn:oatc:feed:xsd:restriction:1.0">
+    <xsd:import namespace="urn:oatc:feed:xsd:restriction:1.0"
+        schemaLocation="oatc_restriction_1_0.xsd"/>
+    <xsd:element name="Network">
+        <xsd:annotation>
+            <xsd:documentation>The Network element specifies two pieces of information.  First, specified by the 'name' attribute, is the human-friendly common name by which the content provider is known.  Second, is the 'id' of that network from a particular identifying authority (Rovi, TMS, etc.).</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="oatc-network:networkType">
+                    <xsd:sequence maxOccurs="unbounded">
+                        <xsd:element name="NetworkId" type="oatc-network:networkIdType"/>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="NetworkDefault">
+        <xsd:annotation>
+            <xsd:documentation>This element contains the defaults for a network/feed combination and should be cached between updates. It is used for default slates and device restrictions. Individual items if present for the airingID completely replace the Device restrictions and can override the default slates.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" name="Slate">
+                    <xsd:annotation>
+                        <xsd:documentation>This element describes the default slates to be used for various reasons when the network must be blacked out. </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="PlacementOpportunity" type="xsd:anyURI"/>
+                        <xsd:attribute name="TechnicalDifficulties" type="xsd:anyURI"/>
+                        <xsd:attribute name="WebBlackout" type="xsd:anyURI"/>
+                        <xsd:attribute name="OffAir" type="xsd:anyURI"/>
+                        <xsd:attribute name="ControlRoom" type="xsd:anyURI"/>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element minOccurs="0" name="Device">
+                    <xsd:annotation>
+                        <xsd:documentation>This element sets up the default restrictions for the SCTE 35 device restrictions field. Device11 which is typically no restrictions is also included as there could be some default restrictions on a network level.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element minOccurs="0" name="Device00">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="oatc-restrict:Restrictions"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element minOccurs="0" name="Device01">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="oatc-restrict:Restrictions"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element minOccurs="0" name="Device10">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="oatc-restrict:Restrictions"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element minOccurs="0" name="Device11">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="oatc-restrict:Restrictions"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="networkType">
+        <xsd:annotation>
+            <xsd:documentation>Allows the specification of the common name by which a content provider is known.
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="networkIdType">
+        <xsd:annotation>
+            <xsd:documentation>Allows the specification of an 'id' for a content provider, along with the identifying authority (namespace) within which that id has meaning.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:attribute name="value" type="xsd:string" use="required"/>
+        <xsd:attribute name="authority" type="oatc-network:networkIdAuthType" use="required"/>
+    </xsd:complexType>
+    <xsd:simpleType name="networkIdAuthType">
+        <xsd:annotation>
+            <xsd:documentation>Datatype that represents the collection of all possible 'authority' values for network IDs.  This type is a union between an enumeration of static values and a pattern-restricted type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union
+            memberTypes="oatc-network:networkIDAuthEnumType oatc-network:networkIDAuthCustomType"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="networkIDAuthEnumType">
+        <xsd:annotation>
+            <xsd:documentation>The enumeration component of the networkIdAuthType type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="TMS"/>
+            <xsd:enumeration value="Rovi"/>
+            <xsd:enumeration value="IMDB"/>
+            <xsd:enumeration value="EIDR"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="networkIDAuthCustomType">
+        <xsd:annotation>
+            <xsd:documentation>The pattern-restricted component of the networkIdAuthType type.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

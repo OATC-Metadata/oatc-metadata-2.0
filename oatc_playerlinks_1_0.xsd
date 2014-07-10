@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" targetNamespace="urn:oatc:feed:xsd:playerlinks:1.0"
+    xmlns:oatc-play="urn:oatc:feed:xsd:playerlinks:1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:element name="PlayerLinks">
+        <xsd:annotation>
+            <xsd:documentation>Rich description of a set of playback deep links, where any particular asset may have different playback means for different devices.  This necessitates understanding of playback by linking to a page, a url to an embeddable player, a link to a streaming resource, or a deep-link to a device app.  The 'type' is controlled by an enumeration.  PlayerLinks are always required for on-demand viewing and in all cases when a preview asset needs to be identified.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" name="PlayerLink">
+                    <xsd:annotation>
+                        <xsd:documentation>An individual player link.  A player link is required to specify the type of link (via DeepLinkType union), the baseURI, and a value for paramsExpected.  The other attributes are optional based on link type.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="Type" type="oatc-play:DeepLinkType" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>Specifies the DeepLinkType value for this PlayerLink.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="BaseUri" type="xsd:anyURI" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The baseURI (URL) for this PlayerLink.  The use of the name "baseURI" reflects that a URI may be expecting parameters.  This URI can be of any form required for a particular platform or OS, including deep-linking on mobile devices, etc.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="ParamsExpected" type="xsd:boolean" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>paramExpected indicates if parameters should be supplied by a caller to the baseURI.  The parameters themselves are not specified.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Aspect" type="oatc-play:AspectRatio">
+                            <xsd:annotation>
+                                <xsd:documentation>The aspect ratio required for this PlayerLink.  Only has meaning within the context of a 'streaming" DeepLinkType.
+</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="OS" type="oatc-play:PlayerLinkOS">
+                            <xsd:annotation>
+                                <xsd:documentation>Specifies the operating system  (PlayerLinkOS) for which this PlayerLink is valid.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="MimeType" type="oatc-play:MimeType">
+                            <xsd:annotation>
+                                <xsd:documentation>Specifies the MIME type for this PlayerLink.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="FFAllowed" type="xsd:boolean"/>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:simpleType name="DeepLinkType">
+        <xsd:annotation>
+            <xsd:documentation>Player links utilize this element to describe the type of link.  DeepLinkType follows the enum/custom pattern, so it is a union of enumerated list and pattern restricted sub-types.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-play:DeepLinkTypeCustom oatc-play:DeepLinkTypeEnum"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="DeepLinkTypeEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the DeepLinkType union.  This type specifies four values:  page, embed, streaming, and applink.  It should be extended only be formal versions of the schema.  Any ad hoc additions should use the custom component.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="page"/>
+            <xsd:enumeration value="embed"/>
+            <xsd:enumeration value="streaming"/>
+            <xsd:enumeration value="applink"/>
+            <xsd:enumeration value="preview"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DeepLinkTypeCustom">
+        <xsd:annotation>
+            <xsd:documentation>The custom values component of the DeepLinkType union.  The format of a custom value is, "private:somevalue", where "somevalue" is a custom name.  This is allows for ad hoc additions to the enumerated component.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="PlayerLinkOS">
+        <xsd:annotation>
+            <xsd:documentation>This element follows the enum/custom pattern to provide a list of acceptable operating systems for purposes of identifying link usage.  This is only applicable for deeplinks of particular types.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-play:PlayerLinkOSEnum oatc-play:PlayerLinkOSCustom"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="PlayerLinkOSEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the PlayerLinkOS union.  This type specifies six values: android, ios, windows, osx, linkux, and unknown.  Values should be added to this list only through formal versions of the schema. Ad hoc values should be set using the custom values component.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Android"/>
+            <xsd:enumeration value="iOS"/>
+            <xsd:enumeration value="Windows"/>
+            <xsd:enumeration value="OSX"/>
+            <xsd:enumeration value="Linux"/>
+            <xsd:enumeration value="Unknown"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="PlayerLinkOSCustom">
+        <xsd:annotation>
+            <xsd:documentation>The custom values component of the PlayerLinkOS union.  The format of a custom value is, "private:somevalue", where "somevalue" is a custom value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="AspectRatio">
+        <xsd:annotation>
+            <xsd:documentation>This element follows the enum/custom pattern to provide a list of acceptable aspect ratio values.  This attribute can be used by any link type for which it is appropriate.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="oatc-play:AspectRatioEnum oatc-play:AspectRatioCustom"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="AspectRatioEnum">
+        <xsd:annotation>
+            <xsd:documentation>The enumerated component of the AspectRatio union.  The current values are 16:9 and 4:3.  Additional values should be added to this enumeration only through formal versioning of the spec.  Ad hoc values should be added using the custom values component.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="16:9"/>
+            <xsd:enumeration value="4:3"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="AspectRatioCustom">
+        <xsd:annotation>
+            <xsd:documentation>The custom values component of the AspectRatio union.  The format of custom values is "private:somevalue" where "somevalue" is the custom value.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="private:\S.*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="MimeType">
+        <xsd:annotation>
+            <xsd:documentation>The description of mime types.  This value is pattern-restricted, and matches set of strings that are separated by hyphens, with an intermediate forward slash.  </xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string"> </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

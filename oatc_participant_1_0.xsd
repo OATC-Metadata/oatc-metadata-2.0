@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="urn:oatc:feed:xsd:participant:1.0"
+    xmlns:oatc-participant="urn:oatc:feed:xsd:participant:1.0">
+    <xs:element name="Participants">
+        <xs:annotation>
+            <xs:documentation>A collection of Participant elements identifying key partipants (cast or crew) in the content.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="oatc-participant:Participant">
+                    <xs:annotation>
+                        <xs:documentation>Identifies an actor appearing in the program using a value derived from a third-party database.  The Authority attribute specifies the issuing authority for the ID; the Value attribute is the key for this actor from the external database; the optional Role attribute specifies the role played by the participant in the program.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Participant">
+        <xs:annotation>
+            <xs:documentation>Identifies an actor appearing in the program using a value derived from a third-party database.  The Authority attribute specifies the issuing authority for the ID; the Value attribute is the key for this actor from the external database; the optional Role attribute specifies the role played by the participant in the program.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="Value" type="xs:string" use="required"/>
+            <xs:attribute name="Authority" type="oatc-participant:ParticipantIdSource"
+                use="required"/>
+            <xs:attribute name="Role" type="xs:string" use="optional"/>
+            <xs:attribute name="Character" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="ParticipantIdSource">
+        <xs:annotation>
+            <xs:documentation>Datatype that represents the collection of all possible 'authority' values for participant IDs.  </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TMS"/>
+            <xs:enumeration value="IMDB"/>
+            <xs:enumeration value="Private"/>
+            <xs:enumeration value="AMG"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="Artist">
+        <xs:annotation>
+            <xs:documentation>A utility element that allows ad hoc naming of 'artists'.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
